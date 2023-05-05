@@ -1,14 +1,14 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Ease, Milliseconds } from "./types";
 import EASES from "eases";
-import { useInterval } from "./hooks";
+import { useInterval_OLD } from "./hooks";
 
 export interface NumberEasingOptions {
     value: number;
     speed?: Milliseconds;
     decimals?: number;
     ease?: Ease;
-    render?: (value: number, decimals: number) => ReactNode;
+    render?: (value: number, decimals: number) => JSX.Element;
 }
 
 const CLOCK_TICK_MS = 16;
@@ -19,7 +19,7 @@ export function NumberEasing({
     decimals = 0,
     ease = "quintInOut",
     render,
-}: NumberEasingOptions): ReactNode {
+}: NumberEasingOptions): JSX.Element {
     const [renderValue, setRenderValue] = useState(value);
     const [lastTarget, lastTargetSet] = useState(value);
 
@@ -30,7 +30,7 @@ export function NumberEasing({
         lastTargetSet(renderValue);
     }, [value]);
 
-    useInterval(() => {
+    useInterval_OLD(() => {
         const currentTime = new Date().getTime();
         const absoluteProgress = (currentTime - lastUpdateTime) / speed;
 
@@ -38,6 +38,7 @@ export function NumberEasing({
             setRenderValue(value);
         } else {
             const easedProgress = EASES[ease](absoluteProgress);
+            console.log("Setting easedProgress", lastTarget + (value - lastTarget) * easedProgress);
             setRenderValue(lastTarget + (value - lastTarget) * easedProgress);
         }
     }, CLOCK_TICK_MS);
