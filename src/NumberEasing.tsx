@@ -1,9 +1,7 @@
-"use client";
-
 import { ReactNode, useEffect, useState } from "react";
 import { Ease, Milliseconds } from "./types";
-import { useInterval } from "usehooks-ts";
 import EASES from "eases";
+import { useInterval } from "./hooks";
 
 export interface NumberEasingOptions {
     value: number;
