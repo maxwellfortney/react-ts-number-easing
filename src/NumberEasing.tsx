@@ -35,7 +35,9 @@ export function NumberEasing({
         const absoluteProgress = (currentTime - lastUpdateTime) / speed;
 
         if (absoluteProgress >= 1) {
-            setRenderValue(value);
+            if (renderValue !== value) {
+                setRenderValue(value);
+            }
         } else {
             const easedProgress = EASES[ease](absoluteProgress);
             setRenderValue(lastTarget + (value - lastTarget) * easedProgress);
