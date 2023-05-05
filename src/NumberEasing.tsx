@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Ease, Milliseconds } from "./types";
 import EASES from "eases";
-import { useInterval_OLD } from "./hooks";
+import { useInterval } from "./hooks";
 
 export interface NumberEasingOptions {
     value: number;
@@ -30,15 +30,14 @@ export function NumberEasing({
         lastTargetSet(renderValue);
     }, [value]);
 
-    useInterval_OLD(() => {
+    useInterval(() => {
         const currentTime = new Date().getTime();
         const absoluteProgress = (currentTime - lastUpdateTime) / speed;
 
-        if (absoluteProgress > 0) {
+        if (absoluteProgress >= 1) {
             setRenderValue(value);
         } else {
             const easedProgress = EASES[ease](absoluteProgress);
-            console.log("Setting easedProgress", lastTarget + (value - lastTarget) * easedProgress);
             setRenderValue(lastTarget + (value - lastTarget) * easedProgress);
         }
     }, CLOCK_TICK_MS);
