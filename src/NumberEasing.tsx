@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Ease, Milliseconds } from "./types";
 import { useInterval } from "usehooks-ts";
 import EASES from "eases";
@@ -10,12 +10,18 @@ export interface NumberEasingOptions {
     speed?: Milliseconds;
     decimals?: number;
     ease?: Ease;
-    render?: (value: number, decimals: number) => React.ReactNode;
+    render?: (value: number, decimals: number) => ReactNode;
 }
 
 const CLOCK_TICK_MS = 16;
 
-export function NumberEasing({ value, speed = 500, decimals = 0, ease = "quintInOut", render }: NumberEasingOptions) {
+export function NumberEasing({
+    value,
+    speed = 500,
+    decimals = 0,
+    ease = "quintInOut",
+    render,
+}: NumberEasingOptions): ReactNode {
     const [renderValue, setRenderValue] = useState(value);
     const [lastTarget, lastTargetSet] = useState(value);
 
